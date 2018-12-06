@@ -8,6 +8,10 @@ import java.io.FileReader;
 
 import org.junit.Test;
 
+/*
+ * TEST
+ */
+
 public class BenchTest {
 	
 	/*
