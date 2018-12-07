@@ -5,7 +5,14 @@ import static org.junit.Assert.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.junit.Test;
 
 /*
@@ -67,6 +74,31 @@ public class BenchTest {
 
 
 
+	}
+	
+	@Test
+	public void testCanon() throws IOException {
+		String url  = "Comparison_of_Canon_EOS_digital_cameras";
+		MatrixExtractor extractor = new MatrixExtractor(url);
+		assertEquals(extractor.getTables().size(),1);
+		 String fileoutputName = "output/html/";
+		 extractor.exportToCSV(fileoutputName);
+		 
+		 try (
+		            Reader reader = Files.newBufferedReader(Paths.get(mkCSVFileName(fileoutputName +url ,1)));
+		            CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader());
+		        ) {
+			 assertNotNull(csvParser);
+			 // Nombre de lignes (hors headers)
+			 assertEquals(csvParser.getRecords().size(),62);
+			 // Nombre de colonnes dans le headers
+			 assertEquals(csvParser.getHeaderMap().size(),18);
+		            for (CSVRecord csvRecord : csvParser) {
+		                // Accessing Values by Column Index
+		            	assertEquals(csvRecord.size(),18);
+		            }
+		            
+		        }		
 	}
 
 	private String mkCSVFileName(String url, int n) {
