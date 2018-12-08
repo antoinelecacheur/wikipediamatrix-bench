@@ -46,18 +46,21 @@ public class BenchTest {
 	       String wurl = BASE_WIKIPEDIA_URL + url; 
 	       System.out.println("Wikipedia url: " + wurl);
 	       // TODO: do something with the Wikipedia URL 
-	       // (ie extract relevant tables for correct URL, with the two extractors)
+	       MatrixExtractor extractor = new MatrixExtractor(url);
+	       String fileoutputName = "output/html/";
+	       extractor.exportToCSV(fileoutputName);
+	       
+	       ExtractorTest test = new ExtractorTest();
+	       test.testExtractor(extractor);
 		    
 	       
 	       // for exporting to CSV files, we will use mkCSVFileName 
 	       // example: for https://en.wikipedia.org/wiki/Comparison_of_operating_system_kernels
 	       // the *first* extracted table will be exported to a CSV file called 
 	       // "Comparison_of_operating_system_kernels-1.csv"
-	       String csvFileName = mkCSVFileName(url, 1);
-	       System.out.println("CSV file name: " + csvFileName);
+
 	       // the *second* (if any) will be exported to a CSV file called
 	       // "Comparison_of_operating_system_kernels-2.csv"
-
 	       
 	       // TODO: the HTML extractor should save CSV files into output/HTML
 	       // see outputDirHtml 
@@ -96,6 +99,30 @@ public class BenchTest {
 		            for (CSVRecord csvRecord : csvParser) {
 		                // Accessing Values by Column Index
 		            	assertEquals(csvRecord.size(),18);
+		            }   
+		        }		
+	}
+	
+	@Test
+	public void testUS() throws IOException {
+		String url  = "Comparison_between_U.S._states_and_countries_by_GDP_(PPP)";
+		MatrixExtractor extractor = new MatrixExtractor(url);
+		assertEquals(extractor.getTables().size(),1);
+		 String fileoutputName = "output/html/";
+		 extractor.exportToCSV(fileoutputName);
+		 
+		 try (
+		            Reader reader = Files.newBufferedReader(Paths.get(mkCSVFileName(fileoutputName +url ,1)));
+		            CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader());
+		        ) {
+			 assertNotNull(csvParser);
+			 // Nombre de lignes (hors headers)
+			 assertEquals(csvParser.getRecords().size(),51);
+			 // Nombre de colonnes dans le headers
+			 assertEquals(csvParser.getHeaderMap().size(),4);
+		            for (CSVRecord csvRecord : csvParser) {
+		                // Accessing Values by Column Index
+		            	assertEquals(csvRecord.size(),4);
 		            }
 		            
 		        }		
