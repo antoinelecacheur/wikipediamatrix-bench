@@ -28,6 +28,9 @@ Les tests spécifiques de BenchTest sur les deux URL permettent de vérifier que l
 Le code fourni permet également de créer des tableaux à "double entrée", c'est-à-dire dont la première colonne est composée de cellules th (des titres donc) comme par exemple pour l'url 10 : "Comparison of Asian national space programm" où des dates font office de header de ligne. Par ailleurs, certaines URL renvoient un code d'erreur HTTP, ces cas sont également traités et lors de la lecture de l'url, un message est renvoyé pour préciser que l'url est inatteignable lorsque c'est le cas.
 
 
+Enfin, en cas de titres de colonne identiques dans un même tableau, une fonction permet d'ajouter un numéro au titre pour que l'on puisse créer le fichier csv. En effet, si deux colonnes ont un titre vide, il sera impossible de créer le csv, la solution proposée créera donc une première colonne dont le titre et vide, et une deuxième dont le titre est "1".
+
+
 Cependant, l'extracteur ne permet pas d'extraire tous les tableaux de wikipedia. Je me suis concentrés sur l'extraction de tableaux de type "wikitable sortable", mais je n'ai également pas traité le cas où le tableau peut être composé de cellules th qui ne sont pas des titres de colonne ou de ligne. D'autres tableaux ont pour contenu de cellule plusieurs balises a (href), dont le contenu n'est pas récupéré par l'extracteur proposé. D'autres cas non répertoriés peuvent ne pas avoir été également traités.
 
 
