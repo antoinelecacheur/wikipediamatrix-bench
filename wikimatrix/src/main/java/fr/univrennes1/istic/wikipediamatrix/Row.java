@@ -7,7 +7,7 @@ import org.jsoup.select.Elements;
 
 public class Row {
 	ArrayList<Element> elements;
-	
+
 	public Row() {
 		this.elements = new ArrayList<Element>();
 	}
@@ -19,13 +19,8 @@ public class Row {
 	public void setElements(ArrayList<Element> elements) {
 		this.elements = elements;
 	}
-	
+
 	public int getElementsCount() {
 		return elements.size();
-	}
-
-	public void add(Element entry) {
-		this.getElements().add(entry);
-		
 	}
 }
